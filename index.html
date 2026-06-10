@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema da Escola</title>
+</head>
+<body>
+
+    <h1>Sistema da Escola</h1>
+
+    <button onclick="mostrarAlunos()">Mostrar Alunos</button>
+    <button onclick="mostrarCursos()">Mostrar Cursos</button>
+    <button onclick="mostrarProfessor()">Mostrar Professor</button>
+
+    <div id="resultado"></div>
+
+    <script>
+        const API = "http://localhost:3000";
+
+        async function mostrarAlunos() {
+            const resposta = await fetch(`${API}/alunos`);
+            const alunos = await resposta.json();
+
+            let texto = "<h2>Alunos</h2>";
+
+            alunos.forEach(aluno => {
+                texto += `
+                    <p>
+                        ID: ${aluno.id}<br>
+                        Nome: ${aluno.nome}<br>
+                        Idade: ${aluno.idade}
+                    </p>
+                `;
+            });
+
+            document.getElementById("resultado").innerHTML = texto;
+        }
+
+        async function mostrarCursos() {
+            const resposta = await fetch(`${API}/cursos`);
+            const cursos = await resposta.json();
+
+            let texto = "<h2>Cursos</h2>";
+
+            cursos.forEach(curso => {
+                texto += `
+                    <p>
+                        ID: ${curso.id}<br>
+                        Curso: ${curso.curso}
+                    </p>
+                `;
+            });
+
+            document.getElementById("resultado").innerHTML = texto;
+        }
+
+        async function mostrarProfessor() {
+            const resposta = await fetch(`${API}/professor`);
+            const professor = await resposta.json();
+
+            document.getElementById("resultado").innerHTML = `
+                <h2>Professor</h2>
+                <p>
+                    Nome: ${professor.nome}<br>
+                    Disciplina: ${professor.disciplina}
+                </p>
+            `;
+        }
+    </script>
+
+</body>
+</html>
